@@ -6,16 +6,16 @@ layout {
         }
 	}
 
-	tab name="nvim" cwd="~/code/notspaces" borderless=true {
+	tab name="nvim" cwd="~/code/et3allim" borderless=true {
 		pane borderless=true edit="./"
 	}
 
-	tab name="run" cwd="~/code/notspaces" split_direction="vertical" {
+	tab name="run" cwd="~/code/et3allim" split_direction="vertical" {
 		pane cwd="client" command="npm" borderless=false {
 			args "run" "dev"
 		}
-		pane cwd="server" command="go" borderless=false {
-			args "run" "main.go"
+		pane cwd="server/api" command="dotnet" borderless=false {
+			args "watch"
 		}
 	}
 

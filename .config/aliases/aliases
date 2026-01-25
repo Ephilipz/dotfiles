@@ -1,0 +1,33 @@
+# +-----+
+# | Git |
+# +-----+
+
+alias gs='git status'
+alias gss='git status -s'
+alias ga='git add'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gb='git branch '
+alias gc='git commit -m '
+alias gco='git checkout '
+alias grst='git reset'
+alias glol='git log --graph --abbrev-commit --oneline --decorate'
+alias gblog="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:red)%(refname:short)%(color:reset) - %(color:yellow)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:blue)%(committerdate:relative)%(color:reset))'"                                                             # git log for each branches
+alias gprune='git fetch -p && for branch in $(git branch -vv | grep ": gone]" | awk '\''{print $1}'\''); do git branch -D $branch; done'
+
+
+# +--------+
+# | Zellij |
+# +--------+
+
+alias zns='zellij --layout notspaces'
+alias zw='zellij --layout work'
+alias ze='zellij --layout et3alim'
+
+
+# +---------+
+# | Network |
+# +---------+
+
+alias killport='f() { kill $(lsof -t -i:$1); }; f'

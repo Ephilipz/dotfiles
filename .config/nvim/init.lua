@@ -5,7 +5,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -17,6 +17,8 @@ vim.o.number = true
 
 -- Remove tilde in netrw
 vim.opt.fillchars = { eob = " " }
+
+vim.opt.cmdheight = 0
 
 -- Relative line numbers
 vim.o.relativenumber = true
@@ -31,6 +33,7 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 
+-- clipboard settings for WSL
 vim.o.clipboard = 'unnamedplus'
 vim.g.clipboard = {
 	name = 'WslClipboard',
@@ -83,6 +86,13 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- folds
+vim.opt.fillchars = { fold = " " }
+vim.opt.foldmethod = "indent"
+vim.opt.foldenable = false
+vim.opt.foldlevel = 99
+vim.g.markdown_folding = 1 -- enable markdown folding
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -90,6 +100,7 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- open netrw
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -99,15 +110,6 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -247,10 +249,17 @@ require('lazy').setup({
 
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
+			-- we want leader e to show diagnostics in a floating window
+			vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open diagnostics' })
+			-- And we want ]d and [d
 			vim.diagnostic.config {
+				underline = false,
 				severity_sort = true,
 				float = { border = 'rounded', source = 'if_many' },
-				underline = { severity = vim.diagnostic.severity.ERROR },
+				text = {
+					[vim.diagnostic.severity.ERROR] = '',
+					[vim.diagnostic.severity.WARN] = '',
+				},
 				signs = vim.g.have_nerd_font and {
 					text = {
 						[vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -260,17 +269,9 @@ require('lazy').setup({
 					},
 				} or {},
 				virtual_text = {
+					current_line = true,
 					source = 'if_many',
-					spacing = 2,
-					format = function(diagnostic)
-						local diagnostic_message = {
-							[vim.diagnostic.severity.ERROR] = diagnostic.message,
-							[vim.diagnostic.severity.WARN] = diagnostic.message,
-							[vim.diagnostic.severity.INFO] = diagnostic.message,
-							[vim.diagnostic.severity.HINT] = diagnostic.message,
-						}
-						return diagnostic_message[diagnostic.severity]
-					end,
+					spacing = 2
 				},
 			}
 
@@ -322,7 +323,7 @@ require('lazy').setup({
 				-- Disable "format_on_save lsp_fallback" for languages that don't
 				-- have a well standardized coding style. You can add additional
 				-- languages here or re-enable it for the disabled ones.
-				local disable_filetypes = { c = true, cpp = true }
+				local disable_filetypes = { c = true, cpp = true, }
 				if disable_filetypes[vim.bo[bufnr].filetype] then
 					return nil
 				else
@@ -340,11 +341,10 @@ require('lazy').setup({
 				},
 			},
 			formatters_by_ft = {
-				-- typescript = { 'biome' },
-				-- javascript = { 'biome' },
-				-- json = { 'biome' },
-				-- typescriptreact = { 'biome' },
-				-- javascriptreact = { 'biome' },
+				javascript = { "biome", "biome-organize-imports" },
+				javascriptreact = { "biome", "biome-organize-imports" },
+				typescript = { "biome", "biome-organize-imports" },
+				typescriptreact = { "biome", "biome-organize-imports" },
 			},
 		},
 	},
@@ -371,12 +371,12 @@ require('lazy').setup({
 					-- `friendly-snippets` contains a variety of premade snippets.
 					--    See the README about individual language/framework/plugin snippets:
 					--    https://github.com/rafamadriz/friendly-snippets
-					-- {
-					--   'rafamadriz/friendly-snippets',
-					--   config = function()
-					--     require('luasnip.loaders.from_vscode').lazy_load()
-					--   end,
-					-- },
+					{
+						'rafamadriz/friendly-snippets',
+						-- config = function()
+						--   require('luasnip.loaders.from_vscode').lazy_load()
+						-- end,
+					},
 				},
 				opts = {},
 			},
@@ -437,15 +437,23 @@ require('lazy').setup({
 		-- change the command in the config to whatever the name of that colorscheme is.
 		--
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		'rose-pine/neovim',
+		"EdenEast/nightfox.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
 		config = function()
-			vim.cmd.colorscheme 'rose-pine'
+			vim.cmd.colorscheme 'duskfox'
 		end,
 	},
 
 	-- Make the background transparent
 	{ 'xiyaowong/transparent.nvim' },
+
+
+	-- Autopairs
+	{
+		'windwp/nvim-autopairs',
+		event = "InsertEnter",
+		config = true
+	},
 
 	{ -- Highlight, edit, and navigate code
 		'nvim-treesitter/nvim-treesitter',
@@ -469,7 +477,7 @@ require('lazy').setup({
 	require 'kickstart.plugins.snacks', -- adds snacks
 
 	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	-- { import = 'custom.plugins' },
+	{ import = 'custom.plugins' },
 	--
 }, {
 	ui = {
