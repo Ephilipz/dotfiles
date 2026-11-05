@@ -218,6 +218,19 @@ keybinds clear-defaults=true {
     }
 }
 themes {
+	rose-pine {
+		bg "#403d52"
+		fg "#e0def4"
+		red "#eb6f92"
+		green "#31748f"
+		blue "#9ccfd8"
+		yellow "#f6c177"
+		magenta "#c4a7e7"
+		orange "#fe640b"
+		cyan "#ebbcba"
+		black "#26233a"
+		white "#e0def4"
+	}
 	barebones-light {
         text_unselected {
             base 163 163 163
@@ -374,7 +387,7 @@ load_plugins {
 // Default: default
 // 
 // theme "pencil-light"
-theme "tokyo-night"
+theme "rose-pine"
  
 // Choose the base input mode of zellij.
 // Default: normal

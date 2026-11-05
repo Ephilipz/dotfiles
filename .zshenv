@@ -1,4 +1,5 @@
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # History settings
@@ -17,6 +18,8 @@ export DOTNET_ROOT="$HOME/.dotnet"
 export NGROK_URL="https://trusted-national-mastodon.ngrok-free.app"
 
 # path
+[ -x "$HOME/homebrew/bin/brew" ] && eval "$("$HOME/homebrew/bin/brew" shellenv)"
+[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
 path+=('/opt/nvim-linux-x86_64/bin')
 path+=('/usr/local/bin')
 path+=("$HOME/.local/bin")
@@ -26,4 +29,4 @@ path+=("$GOPATH/bin")
 path+=("$DOTNET_ROOT")
 path+=("$DOTNET_ROOT/tools")
 path+=("$BUN_INSTALL/bin")
-path+=('/home/nolimit/.opencode/bin')
+
