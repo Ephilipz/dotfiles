@@ -98,7 +98,7 @@ prompt_git_branch() {
 }
 
 prompt_git_info() {
-    [ ! -z "$vcs_info_msg_0_" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX%F{blue}$vcs_info_msg_0_%f$ZSH_THEME_GIT_PROMPT_SUFFIX"
+    [ ! -z "$vcs_info_msg_0_" ] && echo "$ZSH_THEME_GIT_PROMPT_PREFIX%F{#c4a7e7}$vcs_info_msg_0_%f$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
 prompt_purity_precmd() {
@@ -112,25 +112,25 @@ prompt_purification_setup() {
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd prompt_purity_precmd
 
-    ZSH_THEME_GIT_PROMPT_PREFIX=" %F{blue}%f "
-    ZSH_THEME_GIT_PROMPT_DIRTY=" %F{yellow}%f "
-    ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}%f "
+    ZSH_THEME_GIT_PROMPT_PREFIX=" %F{#c4a7e7}%f "
+    ZSH_THEME_GIT_PROMPT_DIRTY=" %F{#f6c177}%f "
+    ZSH_THEME_GIT_PROMPT_CLEAN=" %F{#9ccfd8}%f "
 
-    ZSH_THEME_GIT_PROMPT_ADDED="%F{green}+%f "
-    ZSH_THEME_GIT_PROMPT_MODIFIED="%F{blue}%f "
-	ZSH_THEME_GIT_PROMPT_DELETED="%F{red}x%f "
-    ZSH_THEME_GIT_PROMPT_RENAMED="%F{magenta}r%f "
-    ZSH_THEME_GIT_PROMPT_UNMERGED="%F{yellow}um%f "
-    ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{yellow}?%f "
-    ZSH_THEME_GIT_PROMPT_STASHED="%B%F{magenta}st%f%b "
-    ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{red}%f%b "
-    ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{green}%f%b "
-	ZSH_THEME_GIT_PROMPT_DIVERGED="%B%F{yellow}󰃻%f%b "
+    ZSH_THEME_GIT_PROMPT_ADDED="%F{#9ccfd8}+%f "
+    ZSH_THEME_GIT_PROMPT_MODIFIED="%F{#c4a7e7}%f "
+	ZSH_THEME_GIT_PROMPT_DELETED="%F{#eb6f92}x%f "
+    ZSH_THEME_GIT_PROMPT_RENAMED="%F{#ebbcba}r%f "
+    ZSH_THEME_GIT_PROMPT_UNMERGED="%F{#f6c177}um%f "
+    ZSH_THEME_GIT_PROMPT_UNTRACKED="%F{#f6c177}?%f "
+    ZSH_THEME_GIT_PROMPT_STASHED="%B%F{#ebbcba}st%f%b "
+    ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{#eb6f92}%f%b "
+    ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{#9ccfd8}%f%b "
+	ZSH_THEME_GIT_PROMPT_DIVERGED="%B%F{#f6c177}󰃻%f%b "
 
     prompt_git_branch
 	# time
     RPROMPT='$(prompt_git_info) $(git_prompt_status)'
-    PROMPT=$'%F{black}%~ %B%F{blue}>%f%b '
+    PROMPT=$'%F{#908caa}%~ %B%F{#c4a7e7}>%f%b '
 }
 
 prompt_purification_setup

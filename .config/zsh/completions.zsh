@@ -25,6 +25,12 @@ bindkey -M menuselect '^xh' accept-and-hold                # Hold
 bindkey -M menuselect '^xn' accept-and-infer-next-history  # Next
 bindkey -M menuselect '^xu' undo                           # Undo
 
+# zsh-completions (Homebrew) must be in fpath before compinit
+for _d in $HOME/homebrew/share/zsh-completions /opt/homebrew/share/zsh-completions; do
+  [[ -d $_d ]] && fpath=($_d $fpath)
+done
+unset _d
+mkdir -p "$XDG_CACHE_HOME/zsh/.zcompcache"
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
 
